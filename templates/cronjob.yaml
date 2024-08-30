@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Values.cronjob.name }}
+spec:
+  schedule: {{ .Values.cronjob.schedule }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: {{ .Values.cronjob.containerName }}
+            image: {{ .Values.cronjob.image }}
+            command: ["sh", "-c", "{{ .Values.cronjob.command }}"]
+          restartPolicy: {{ .Values.cronjob.restartPolicy }}
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
